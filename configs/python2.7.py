@@ -1,4 +1,4 @@
-wrapper = ("python3", ">>> ", None)
+wrapper = ("python2.7", ">>> ", None)
 
 block_comments = [('"""', '"""')]
 inline_comments = ['#']

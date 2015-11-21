@@ -109,7 +109,6 @@ def process(args):
     for suite in suites:
 
         wrapper = REPLWrapper(*settings.wrapper)
-        raise UserWarning(code)
 
         for i, data in enumerate(suite):
 
