@@ -1,4 +1,7 @@
 command = 'python3'
+
+output = 'print(repr("{}"))'
+
 block_comments = [('"""', '"""')]
 inline_comments = ['#']
 

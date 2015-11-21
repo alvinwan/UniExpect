@@ -22,11 +22,8 @@
 ; >>> (map-reverse identity '(4 3 2 1))
 ; (1 4 9 16)
 ;;;
-
-; > (define a 1) => a  ; also a test!
-
 (define (map-reverse proc items)  ; > (+ 3 1) => 1  ; wrong!
-  (if (null? items)
+  (if (null? items)  ; > (define a 1) => a  ; also a test!
     nil
     (append (map-reverse proc (cdr items)) (list (proc (car items)))))
 )
