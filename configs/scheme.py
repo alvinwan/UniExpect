@@ -1,6 +1,7 @@
 command = 'scheme'
 
 output = '(display "{}")(display "\n")'
+exit = '(exit)'
 
 # doesn't exist in scheme, but we will use ;;; to denote multi-line tests
 block_comments = [';;;']

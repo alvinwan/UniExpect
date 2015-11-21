@@ -5,6 +5,7 @@ import subprocess
 import random
 import string
 import select
+from pexpect.replwrap import REPLWrapper
 
 parser = argparse.ArgumentParser(description="""
 =============== EXPECT TESTING =================
@@ -28,9 +29,10 @@ def main(args):
         for output, data in process(args):
             correct = output['expected'] == output['actual']
             if not correct:
-                for k, v in output.items():
-                    print(k + ':')
-                    print(v)
+                print()
+                print(data['type']['input_prefix'], output['command'])
+                print('\nExpected:\n', output['expected'])
+                print('Actual:\n', output['actual'])
                 print('*'*70)
     except subprocess.CalledProcessError as e:
         pass
@@ -88,37 +90,25 @@ def process(args):
     # execute all suites of code
     for suite in suites:
 
-        # initialize process for suite
-        process = subprocess.Popen([settings.command],
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        poll = select.poll()
-        poll.register(process.stdout.fileno(), select.POLLIN)
-
-        # run file
-        process.stdin.write(code.encode('utf-8'))
-        process.stdin.flush()
+        py = REPLWrapper("python", ">>> ", "import sys; sys.ps1={!r}; sys.ps2={!r}")
 
         for i, data in enumerate(suite):
 
             # get and clean data
-            cmd, out, test = data
-            cmd = cmd.replace(test['input_prefix'], '').strip()
-            out = out.strip()
+            command, expected, test = data
+            command = command.replace(test['input_prefix'], '').strip()
+            expected = expected.strip()
 
             # issue command
-            process.stdin.write((cmd + "\n").encode('utf-8'))
-            process.stdin.flush()
+            actual = py.run_command(command)
 
             # add output back to data
-            suite[i] = ({
-                'command': cmd,
-                'expected': out,
-                'actual': process.stdout.readline() if poll.poll(100) else '',
-            }, {
+            suite[i] =(dict(command=command, expected=expected, actual=actual),{
                 'type': test
             })
 
             yield suite[i]
+
 
 def map_break(items, condition, f):
     """Calls function f on the item where a condition is satisfied"""
