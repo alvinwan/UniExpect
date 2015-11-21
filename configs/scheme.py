@@ -13,7 +13,7 @@ tests = [
         'inline_comments': False
     },
     {
-        'input_prefix': '>',
+        'input_prefix': '; > ',
         'output_prefix': '=>',
         'one-liner': True,
         'block_comments': True,

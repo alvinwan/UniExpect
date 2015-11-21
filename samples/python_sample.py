@@ -7,6 +7,7 @@ demonstrate that expect can handle several edge cases, accommodate regular
 doctest formats, and detect inline tests.
 
 >>> x = 4
+
 >>> x
 4
 >>> 3+5 # comments

@@ -20,21 +20,37 @@ parser.add_argument('filename', type=str, help='the file to parse for tests')
 parser.add_argument('-l', '--language', type=str, help='the language to parse',
                     default='python3')
 parser.add_argument('-v', '--verbose', help='turn on verbose mode for more \
-                    detailed reporting')
+                    detailed reporting', action='store_true')
 
 def main(args):
     """Main function for except utility. Prints output of the process function.
     """
     try:
+        print('*'*70)
+        print("""
+        Testing {}\n'.format(args.filename)
+        """)
+        print('*'*70)
+        length = passed = 0
         for output, data in process(args):
+            length += 1
             correct = output['expected'] == output['actual']
-            if not correct:
-                print()
-                print('>>> ', output['command'])
-                print('\nExpected:\n', output['expected'])
-                print('Actual:\n', output['actual'])
-                print()
+            passed += int(correct)
+            if not correct or args.verbose:
+                print("""
+                >>> {command}
+
+                Expected:
+                {expected}
+                Actual:
+                {actual}
+                """)
                 print('*'*70)
+        if length == passed:
+            print('\nAll passed!\n')
+        else:
+            print('\nPassed', passed, 'of', length, 'tests.\n')
+        print('*'*70)
     except subprocess.CalledProcessError as e:
         pass
 
@@ -87,12 +103,13 @@ def process(args):
         inline = inline.strip()
         map_break(inline_tests,
             lambda test: inline.startswith(test['input_prefix']),
-            lambda test: suites.append(split(inline, test['output_prefix']) + [test]))
+            lambda test: suites.append([split(inline, test['output_prefix']) + [test]]))
 
     # execute all suites of code
     for suite in suites:
 
         wrapper = REPLWrapper(*settings.wrapper)
+        raise UserWarning(code)
 
         for i, data in enumerate(suite):
 
@@ -122,7 +139,7 @@ def map_break(items, condition, f):
 def split(string, divider):
     """Splits a string according at the first instance of a divider."""
     pieces = string.split(divider)
-    return [pieces[0], divider.join(pieces[1:])]
+    return [pieces[0].strip(), divider.join(pieces[1:])]
 
 if __name__ == '__main__':
 	args = parser.parse_args()
