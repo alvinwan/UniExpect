@@ -1,11 +1,11 @@
-wrapper = ("python", ">>> ", None)
+wrapper = ("sqlite3", "sqlite> ", None)
 
-block_comments = [('"""', '"""')]
+block_comments = [('###', '###')]
 inline_comments = ['#']
 
 tests = [  # test formats higher up get precedence
     {
-        'input_prefix': '>>>',  # prefix for test input
+        'input_prefix': '> ',  # prefix for test input
         'output_prefix': '',  # prefix for test output
         'block_comments': True,  # like doctests, runs tests in block as a suite
         'inline_comments': False  # no output_prefix = no inline_comments

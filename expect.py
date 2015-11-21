@@ -30,9 +30,10 @@ def main(args):
             correct = output['expected'] == output['actual']
             if not correct:
                 print()
-                print(data['type']['input_prefix'], output['command'])
+                print('>>> ', output['command'])
                 print('\nExpected:\n', output['expected'])
                 print('Actual:\n', output['actual'])
+                print()
                 print('*'*70)
     except subprocess.CalledProcessError as e:
         pass
@@ -76,7 +77,8 @@ def process(args):
             map_break(block_tests,
                 lambda test: line.startswith(test['input_prefix']),
                 lambda test: suite.append(
-                    [line, lines.pop(0), test] if not test['output_prefix'] else
+                    [line, lines.pop(0), test]
+                    if not test.get('one-liner', False) else
                     split(line, test['output_prefix']) + [test]))
         suites.append(suite)
 
@@ -90,17 +92,17 @@ def process(args):
     # execute all suites of code
     for suite in suites:
 
-        py = REPLWrapper("python", ">>> ", "import sys; sys.ps1={!r}; sys.ps2={!r}")
+        wrapper = REPLWrapper(*settings.wrapper)
 
         for i, data in enumerate(suite):
 
             # get and clean data
             command, expected, test = data
             command = command.replace(test['input_prefix'], '').strip()
-            expected = expected.strip()
+            expected = expected.replace(test['output_prefix'], '').strip()
 
-            # issue command
-            actual = py.run_command(command)
+            # issue command, getting rid of line break at end
+            actual = wrapper.run_command(command)[:-2]
 
             # add output back to data
             suite[i] =(dict(command=command, expected=expected, actual=actual),{
