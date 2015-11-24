@@ -1,4 +1,8 @@
-wrapper = ("scheme", "> ", None)
+shell = {
+    'command': 'scheme',
+    'prompt': '> ',
+    'continue': ' '
+}
 
 # doesn't exist in scheme, but we will use ;;; to denote multi-line tests
 block_comments = [(';;;', ';;;')]

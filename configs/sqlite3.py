@@ -1,4 +1,8 @@
-wrapper = ("sqlite3", "sqlite> ", None)
+shell = {
+    'command': 'sqlite3',
+    'prompt': 'sqlite> ',
+    'continue': ' '
+}
 
 block_comments = [('###', '###')]
 inline_comments = ['#']

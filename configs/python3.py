@@ -1,4 +1,8 @@
-wrapper = ("python3", ">>> ", None)
+shell = {
+    'command': 'python3',
+    'prompt': '>>> ',
+    'continuation': '\.\.\. '
+}
 
 block_comments = [('"""', '"""')]
 inline_comments = ['#']

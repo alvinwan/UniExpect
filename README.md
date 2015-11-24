@@ -47,4 +47,4 @@ I've already setup configurations for:
 
 At some point, UniExpect will be installable via pypi:
 
-```pip install Uexpect```
+```pip install uniexpect```
