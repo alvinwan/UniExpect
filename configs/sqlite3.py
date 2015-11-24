@@ -1,9 +1,11 @@
 shell = {
     'command': 'sqlite3',
     'prompt': 'sqlite> ',
-    'continue': ' '
+    'continuation': ' '
 }
 
+language = 'sqlite3'
+extension = 'sql'
 block_comments = [('###', '###')]
 inline_comments = ['#']
 

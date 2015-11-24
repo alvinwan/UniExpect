@@ -1,5 +1,11 @@
-wrapper = ("bash", "bash-3.2$ ", None)
+shell = {
+    'command': 'bash',
+    'prompt': 'bash-3.2$ ',
+    'continuation': '     '
+}
 
+language = 'bash'
+extension = 'sh'
 block_comments = [('###', '###')]
 inline_comments = ['#']
 

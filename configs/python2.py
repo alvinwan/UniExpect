@@ -1,9 +1,11 @@
 shell = {
     'command': 'python2.7',
     'prompt': '>>> ',
-    'continue': '... '
+    'continuation': '\.\.\. '
 }
 
+language = 'python2.7'
+extension = 'py'
 block_comments = [('"""', '"""')]
 inline_comments = ['#']
 

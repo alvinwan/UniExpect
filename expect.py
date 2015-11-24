@@ -5,7 +5,8 @@ hbar = '*' * 70
 
 header_output = hbar + """
 
-Testing {}\n
+Testing {filename} on {language}
+
 """ + hbar
 
 test_output = """
@@ -19,26 +20,26 @@ Actual:
 """ + hbar
 
 parser = argparse.ArgumentParser(description="""
-=============== EXPECT TESTING =================
-This small utility allows you to use inline,
-'expect' tests for any language. It's primarily
-built for languages that don't already support
-inline tests, but any language (even Python!) may
-be added using a configuration file.
+This small utility allows you to use inline, 'expect' tests for any language.
+It's primarily built for languages that don't already support inline tests, but
+any language (even Python!) may be added using a configuration file.
 """)
 
 parser.add_argument('filename', type=str, help='the file to parse for tests')
 parser.add_argument('-l', '--language', type=str, help='the language to parse',
-                    default='python3')
+                    default=None)
 parser.add_argument('-v', '--verbose', help='turn on verbose mode for more \
                     detailed reporting', action='store_true')
 
 def main(args):
     """Main function for except utility. Prints output of the process function.
     """
-    print(header_output.format(args.filename))
+    expect = Expect(args.filename, args.language)
+    print(header_output.format(
+        filename=args.filename,
+        language=expect.settings.language))
     length = passed = 0
-    for output, data in Expect(args.filename, args.language).go():
+    for output, data in expect.go():
         length += 1
         correct = output['expected'] == output['actual']
         passed += int(correct)
@@ -48,7 +49,7 @@ def main(args):
         print('\nAll passed!\n')
     else:
         print('\nPassed', passed, 'of', length, 'tests.\n')
-    print('*'*70)
+    print(hbar)
 
 
 if __name__ == '__main__':

@@ -1,10 +1,10 @@
 shell = {
-    'command': 'scheme',
-    'prompt': '> ',
-    'continuation': ''
+    'command': 'python scheme',
+    'prompt': 'scm> ',
+    'continuation': '     '
 }
 
-language = 'scheme3'
+language = 'scheme'
 extension = 'scm'
 
 # doesn't exist in scheme, but we will use ;;; to denote multi-line tests

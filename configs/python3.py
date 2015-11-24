@@ -4,6 +4,8 @@ shell = {
     'continuation': '\.\.\. '
 }
 
+language = 'python3'
+extension = 'py'
 block_comments = [('"""', '"""')]
 inline_comments = ['#']
 
