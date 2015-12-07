@@ -10,7 +10,7 @@ functionality.
 2. The "unittest" approach to testing antiquates manual, sandbox testing.
 Writing code in SQL could, for example, could benefit immensely. Each accidental
 table modification means you have to restart the session, copy in the data, and
-*then* try your code again. With UE, it's just one command.
+*then* try your code again. With UE, it's just one command: `expect test.sql`.
 
 See below for how to get started.
 
@@ -24,14 +24,48 @@ pip install uniexpect
 
 ##How to Use
 
-(coming soon)
+The standard expect syntax matches that of Python doctests. By default, the
+test input prefix is `>>>`. In other words, tests following the following
+format.
+
+```
+>>> <input>
+<output>
+```
+
+Any language with block comments, such as `/* ... */` or `""" ... """`, can use
+the following syntax:
+
+```
+/*
+>>> <test input>
+<expected output>
+>>> <test input>
+<expected output>
+*/
+```
+
+For languages that only support inline comments, UE default configuration files
+use the following convention to denote test suites:
+
+```
+###
+# >>> <test input>
+# <expected output>
+# >>> <test input>
+# <expected output>
+###
+```
+
+The comment symbol is simply repeated three times before and after the test
+suite. For more concrete examples, see the `samples/` folder.
 
 ##How to Run
 
-Usage is simple. To run `expect` on `samples/scheme_sample.scm`:
+Usage is simple. To run `expect` on `samples/scheme.scm`:
 
 ```
-expect samples/scheme_sample.scm
+expect samples/scheme.scm
 ```
 
 ##Settings
@@ -45,7 +79,7 @@ If the language is not specified, UE will (1) assume the file extension is
 the language name and, if no such configuration file exists, will (2) search all
 preference files with the same first letter as the extension.
 
-Example: `expect samples/sql_sample.sql --language=sql`
+Example: `expect samples/sql.sql --language=sql`
 
 ###`--verbose`
 
@@ -54,8 +88,8 @@ default. To view all output, pass the `verbose` flag. Add `v`s to increase
 verbosity, with `-vvv` for maximum whining.
 
 Examples:
-- `expect samples/python_sample.py --verbose`
-- `expect samples/python_sample.py -vvv`
+- `expect samples/python.py --verbose`
+- `expect samples/python.py -vvv`
 
 ##Support
 
@@ -64,38 +98,37 @@ I've already setup configurations for:
 
 - python2.7
 ```
-expect samples/python_sample.py --language=python2
+expect samples/python.py --language=python2
 ```
 
 - python3
 ```
-expect samples/python_sample.py --language=python3
+expect samples/python.py --language=python3
 ```
 
 - scheme
 ```
-expect samples/scheme_sample.scm
+expect samples/scheme.scm
 ```
 version: chibi-scheme
 
 - sqlite3
 ```
-expect samples/sqlite_sample.sql
+expect samples/sqlite.sql
 ```
 
-- bash
+- bash3.2
 ```
-expect samples/bash_sample.sh --language=bash
+expect samples/bash.sh --language=bash
 ```
-version: 3.2
 
-Custom:
+UE has also been setup to work with custom programming languages.
 
 - berkeleyscheme
 ```
-expect samples/berkeleyscheme_sample.scm --language=berkeleyscheme
+expect samples/berkeleyscheme.scm --language=berkeleyscheme
 ```
 
-##How to Add Language
+##How to Add a Language
 
 (coming soon)
