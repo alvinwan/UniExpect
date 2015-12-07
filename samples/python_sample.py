@@ -37,9 +37,9 @@ def is_proper(str):
         parens = []
         for c in str:
             if c == '(':
-                parens.append(c)  # > [1, 2, 3].pop() => 3  # also a test!
+                parens.append(c)  # > [1, 2, 3].pop() => 3
             else:
-                parens.pop()  # > [1, 2, 3].pop(0) => 3  # wrong!
+                parens.pop()  # > [1, 2, 3].pop(0) => 3
         return len(parens) == 0
     except IndexError:
         return False

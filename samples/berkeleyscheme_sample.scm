@@ -18,11 +18,13 @@
 ;;;
 ; Maps procedure over all items but returns results in reverse order
 ;
-; >>> (map-reverse (lambda (x) (* x x))) '(4 3 2 1))
+; >>> (define identity (lambda (x) (* x x)))
+; identity
+; >>> (map-reverse identity '(4 3 2 1))
 ; (1 4 9 16)
 ;;;
 (define (map-reverse proc items)  ; > (+ 3 1) ; wrong! => 1
-  (if (null? items)  ; > (define a 1) ; place comments after test input =>
-    ()
+  (if (null? items)  ; > (define a 1) ; place comments after test input => a
+    nil
     (append (map-reverse proc (cdr items)) (list (proc (car items)))))
 )

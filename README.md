@@ -1,5 +1,3 @@
-> Not yet ready for use.
-
 # UniExpect
 UniExpect (UE) offers inline testing for *any* command-line-executable language,
 effectively making the notion of doctests universal. There are two immediate
@@ -26,17 +24,29 @@ pip install uniexpect
 
 ##How to Use
 
-Usage is simple. To run `expect`:
+(coming soon)
+
+##How to Run
+
+Usage is simple. To run `expect` on `samples/scheme_sample.scm`:
 
 > If the language `expect` uses is not correct, see below for how to manually
 select a language.
 
 ```
-# format
-expect path/to/file
+expect samples/scheme_sample.scm
+```
 
-# sample
-expect path/to/file samples/scheme_sample.scm
+Just as Python doctests do, UniExpect only reports incorrect outputs by
+default. To view all outputs, pass the `verbose` flag. For the abbreviated flag,
+add `v`s to increase verbosity.
+
+```
+; show correct outputs as well
+expect samples/python_sample.py --verbose
+
+; whine as much as possible
+expect samples/python_sample.py -vvv
 ```
 
 UE contains a variety of settings. One of the most important is to
@@ -47,26 +57,7 @@ the language name and otherwise will (2) search all preference files with the
 same first letter as the extension.
 
 ```
-# format
-expect path/to/file --language=the_language
-
-# manually specify language
 expect samples/sql_sample.sql --language=sql
-
-# auto-detect language
-expect samples/sql_sample.sql
-```
-
-Just as Python doctests do, UniExpect only reports incorrect outputs by
-default. To view all outputs, pass the `verbose` flag. For the abbreviated flag,
-add `v`s to increase verbosity.
-
-```
-# show correct outputs as well
-expect samples/python_sample.py --verbose
-
-# whine as much as possible
-expect samples/python_sample.py -vvv
 ```
 
 ##Support
@@ -75,11 +66,22 @@ UniExpect can be used for nearly any programming language. Here are a few that
 I've already setup configurations for:
 
 - python2.7
+`expect samples/python_sample.py --language=python2`
 - python3
-- sqlite3
-- scheme
-- bash (3.2)
+`expect samples/python_sample.py --language=python3`
+- scheme (chibi-scheme)
+`expect samples/scheme_sample.scm`
 
 Custom:
 
 - berkeleyscheme
+`expect samples/berkeleyscheme_sample.scm --language=berkeleyscheme`
+
+Here are additional languages that will support in the near future:
+
+- sqlite3
+- bash (3.2)
+
+##How to Add Language
+
+(coming soon)
