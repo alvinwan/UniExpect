@@ -16,7 +16,7 @@ inline_comments = [';']
 tests = [
     {
         'input_prefix': '; >>>',  # prefix for test input
-        'output_prefix': '; ',  # prefix for test output
+        'output_prefix': ';',  # prefix for test output
         'block_comments': True,  # just like standard doctests
         'inline_comments': False
     },
