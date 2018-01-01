@@ -1,9 +1,9 @@
 # UniExpect
-UniExpect (UE) offers inline testing for *any* command-line-executable language,
-effectively making the notion of doctests universal. There are two immediate
+UniExpect (UE) offers inline testing for *any* REPL language, making the notion of 
+doctests more universal and even more versatile. There are two immediate
 benefits to using the UE utility:
 
-1. With this, code in all languages can be placed directly below executable,
+1. With this, code in all supported languages can be placed directly below executable,
 easily-checked tests that help to explain a function or class's basic
 functionality.
 
@@ -14,15 +14,15 @@ table modification means you have to restart the session, copy in the data, and
 
 See below for how to get started.
 
-##Installation
+## Installation
 
-At some point, UniExpect will be installable via pypi:
+UniExpect is now installable via pypi:
 
 ```
 pip install uniexpect
 ```
 
-##How to Use
+## How to Use
 
 The standard expect syntax matches that of Python doctests. By default, the
 test input prefix is `>>>`. In other words, tests following the following
@@ -60,7 +60,7 @@ use the following convention to denote test suites:
 The comment symbol is simply repeated three times before and after the test
 suite. For more concrete examples, see the `samples/` folder.
 
-##How to Run
+## How to Run
 
 Usage is simple. To run `expect` on `samples/scheme.scm`:
 
@@ -68,12 +68,12 @@ Usage is simple. To run `expect` on `samples/scheme.scm`:
 expect samples/scheme.scm
 ```
 
-##Settings
+## Settings
 
 The following is an abridged list of more commonly-used settings. For a full
 list, run `expect --help`.
 
-###`--language=<language>`
+### `--language=<language>`
 
 If the language is not specified, UE will (1) assume the file extension is
 the language name and, if no such configuration file exists, will (2) search all
@@ -81,7 +81,7 @@ preference files with the same first letter as the extension.
 
 Example: `expect samples/sql.sql --language=sql`
 
-###`--verbose`
+### `--verbose`
 
 Just as Python doctests do, UniExpect only reports incorrect outputs by
 default. To view all output, pass the `verbose` flag. Add `v`s to increase
@@ -91,7 +91,7 @@ Examples:
 - `expect samples/python.py --verbose`
 - `expect samples/python.py -vvv`
 
-##Support
+## Support
 
 UniExpect can be used for nearly any programming language. Here are a few that
 I've already setup configurations for:
@@ -129,6 +129,6 @@ UE has also been setup to work with custom programming languages.
 expect samples/berkeleyscheme.scm --language=berkeleyscheme
 ```
 
-##How to Add a Language
+## How to Add a Language
 
 (coming soon)

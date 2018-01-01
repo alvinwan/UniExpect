@@ -1,5 +1,5 @@
 import argparse
-from expect import Expect
+from .expect import Expect
 
 hbar = '*' * 70
 
@@ -31,9 +31,11 @@ parser.add_argument('-l', '--language', type=str, help='the language to parse',
 parser.add_argument('-v', '--verbose', help='turn on verbose mode for more \
                     detailed reporting', action='store_true')
 
-def main(args):
+
+def main():
     """Main function for except utility. Prints output of the process function.
     """
+    args = parser.parse_args()
     expect = Expect(args.filename, args.language)
     print(header_output.format(
         filename=args.filename,
@@ -53,5 +55,5 @@ def main(args):
 
 
 if __name__ == '__main__':
-	args = parser.parse_args()
-	main(args)
+    main()
+

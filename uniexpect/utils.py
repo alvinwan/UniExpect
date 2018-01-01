@@ -5,6 +5,7 @@ def map_break(items, condition, f):
             f(item)
             break
 
+
 def split(string, divider):
     """Splits a string according at the first instance of a divider."""
     pieces = string.split(divider)

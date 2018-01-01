@@ -1,9 +1,9 @@
-from utils import map_break, split
+from .utils import map_break
+from .utils import split
+from .configs import languages
 import re
-import importlib
 from pexpect.replwrap import REPLWrapper
-import pexpect
-import os
+
 
 class Expect:
     """
@@ -12,23 +12,11 @@ class Expect:
 
     def __init__(self, filename, language):
 
-        # settings loader
-        load_setting = lambda l: importlib.import_module('configs.{}'.format(l))
-
         # load settings from configuration file
-        if not language:
-            guess = ext = filename.split('.')[-1]
-            if os.path.isfile('configs/{}.py'.format(guess)):
-                self.settings = guess
-            else:
-                for f in os.listdir('configs'):
-                    if f.startswith(ext[0]):
-                        guess = load_setting('.'.join(f.split('.')[:-1]))
-                        if guess.extension == ext:
-                            self.settings = guess
-                            break
-        else:
-            self.settings = load_setting(language)
+        extension = filename.split('.')[-1]
+        for module in languages:
+            if module.language == language or module.extension == extension:
+                self.settings = module
 
         # grab contents of file
         self.filename = filename
