@@ -49,7 +49,7 @@ def main():
         if not correct or args.verbose:
             print(test_output.format(**output))
     if length == passed:
-        print('\nAll passed!\n')
+        print('\nAll passed! (%d/%d)\n' % (passed, length))
     else:
         print('\nPassed', passed, 'of', length, 'tests.\n')
     print(hbar)

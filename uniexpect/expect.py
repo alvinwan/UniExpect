@@ -41,9 +41,8 @@ class Expect:
         # extract all inline comments
         inlines = []
         for start in settings.inline_comments:
-            start = re.escape(start)
             inline = re.compile('{}[^\n]+'.format(start))
-            inlines.extend(inline.findall(code))
+            inlines.extend([line[len(start):] for line in inline.findall(code)])
             decommented_code = inline.sub('', decommented_code)
 
         return blocks, inlines, decommented_code
@@ -95,8 +94,10 @@ class Expect:
             inline = inline.strip()
             for test in inline_tests:
                 if inline.startswith(test['input_prefix']):
+                    inline_body = inline[len(test['input_prefix']):]
                     suites.append(
-                        [split(inline, test['output_prefix']) + [test]])
+                        [split(inline_body, test['output_prefix']) + [test]])
+                    break
         return suites, code
 
     @staticmethod

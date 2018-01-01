@@ -13,10 +13,7 @@ hello world
 20
 */
 
-CREATE TABLE LePoop AS -- > SELECT "hai" || ! => hai!
+CREATE TABLE LePoop AS -- > SELECT "hai" || "!"; => hai!
   SELECT 20 AS burd,    10 AS duck,     5 AS goose UNION
   SELECT 12,            2,              3         UNION
   SELECT 31,            34,             0;
-
--- >>> SELECT burd FROM LePoop WHERE goose > 2 LIMIT 1;
--- 20
