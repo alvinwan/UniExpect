@@ -1,4 +1,3 @@
-from .utils import map_break
 from .utils import split
 from .configs import languages
 import re
@@ -32,13 +31,17 @@ class Expect:
         # extract all block comments
         blocks = []
         for start, end in settings.block_comments:
-            block = re.compile('{}[\S\s]+?{}'.format(start, end))
-            blocks.extend(block.findall(code))
+            cut = slice(len(start), -len(end))
+            start = re.escape(start)
+            end = re.escape(end)
+            block = re.compile(r'{}[\S\s]+?{}'.format(start, end))
+            blocks.extend([block[cut] for block in block.findall(code)])
             decommented_code = block.sub('', decommented_code)
 
         # extract all inline comments
         inlines = []
         for start in settings.inline_comments:
+            start = re.escape(start)
             inline = re.compile('{}[^\n]+'.format(start))
             inlines.extend(inline.findall(code))
             decommented_code = inline.sub('', decommented_code)
@@ -69,24 +72,31 @@ class Expect:
 
         # assemble all block tests
         for block in block_comments:
-            lines, suite = list(block.split('\n')), []
+            lines, suite, unit = block.splitlines(), [], None
             while lines:
                 line = lines.pop(0).strip()
-                map_break(block_tests,
-                    lambda test: line.startswith(test['input_prefix']),
-                    lambda test: suite.append(
-                        [line, lines.pop(0), test]
-                        if not test.get('one-liner', False) else
-                        split(line, test['output_prefix']) + [test]))
+                for test in block_tests:
+                    if line.startswith(test['input_prefix']):
+                        if unit is not None:
+                            suite.append(unit)
+                        unit = [line, '', test]
+                        if test.get('one-liner', False):
+                            unit = split(line, test['output_prefix']) + [test]
+                        break
+                if unit is None or line == unit[0]:
+                    continue
+                unit[1] += line if not unit[1] else '\n' + line
+            if unit is not None:
+                suite.append(unit)
             suites.append(suite)
 
         # assemble all inline tests
         for inline in inline_comments:
             inline = inline.strip()
-            map_break(inline_tests,
-                lambda test: inline.startswith(test['input_prefix']),
-                lambda test: suites.append([split(inline, test['output_prefix']) + [test]]))
-
+            for test in inline_tests:
+                if inline.startswith(test['input_prefix']):
+                    suites.append(
+                        [split(inline, test['output_prefix']) + [test]])
         return suites, code
 
     @staticmethod
@@ -105,7 +115,7 @@ class Expect:
 
     @staticmethod
     def run_file(command, session, settings, timeout=1):
-        """Runs a python file in the provided session by feeding the interpreter
+        """Runs a file in the provided session by feeding the interpreter
         one line at a time. At each iteration, run_file checks for a
         continuation or regular prompt and finally closes the expect properly,
         so that the REPLWrapper works properly the next run.
@@ -182,11 +192,15 @@ class Expect:
                 # issue command
                 actual = Expect.run_command(command, session, settings)
 
+                # hacky fix for sqlite3 weirdness
+                if settings.language == 'sqlite3':
+                    actual = '\n'.join(actual.splitlines()[1:])
+
                 # add output back to data
                 yield ({
                     'command': command,
                     'expected': expected,
                     'actual': actual
-                },{
+                }, {
                     'type': test
                 })

@@ -21,6 +21,7 @@ True
 # > () + () => ()
 # > [] + [] => []
 
+
 def is_proper(str):
     """Tests if a set of parentheses are properly closed.
 

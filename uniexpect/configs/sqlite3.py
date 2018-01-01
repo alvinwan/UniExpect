@@ -2,7 +2,8 @@ shell = {
     'command': 'sqlite3',
     'prompt': 'sqlite> ',
     'continuation': '>> ',
-    '_load_file': '.read {filename}'
+    'command_with_file': 'sqlite3 --init {filename}',
+    '_load_file': '.read {filename}',  # 'command_with_file' takes precedence
 }
 
 language = 'sqlite3'

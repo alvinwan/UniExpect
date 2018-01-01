@@ -10,10 +10,11 @@ Testing {filename} on {language}
 """ + hbar
 
 test_output = """
-{command}
+>>> {command}
 
 Expected:
 {expected}
+
 Actual:
 {actual}
 
