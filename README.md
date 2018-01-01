@@ -117,11 +117,6 @@ version: chibi-scheme
 expect samples/sqlite.sql
 ```
 
-- bash3.2
-```
-expect samples/bash.sh --language=bash
-```
-
 UE has also been setup to work with custom programming languages.
 
 - berkeleyscheme
@@ -131,4 +126,45 @@ expect samples/berkeleyscheme.scm --language=berkeleyscheme
 
 ## How to Add a Language
 
-(coming soon)
+Take the Scheme specification as an example. The first several sections
+are self-explanatory: we describe the shell basics, language information, 
+and comment styles. As for the tests, each dictionary represents a
+ different test type. The `input_prefix` and `output_prefix` denote the
+ question and expected response, respectively. `block_comments` indicates
+ whether or not we can expect this test type into a comment block. The
+ `inline_comments` likewise indicates whether or not we can expect this
+ test type in inline comments. See more examples in the 
+ [`samples/`](https://github.com/alvinwan/UniExpect/tree/master/samples) directory.
+
+```
+shell = {
+    'command': 'scheme',
+    'prompt': '> ',
+    'continuation': '>> ',
+    '_load_file': '(load "{filename}")'
+}
+
+language = 'scheme'
+extension = 'scm'
+
+# doesn't exist in scheme, but we will use ;;; to denote multi-line tests
+block_comments = [(';;;', ';;;')]
+
+inline_comments = [';']
+
+tests = [
+    {
+        'input_prefix': '; >>>',  # prefix for test input
+        'output_prefix': ';',  # prefix for test output
+        'block_comments': True,  # just like standard doctests
+        'inline_comments': False
+    },
+    {
+        'input_prefix': '> ',
+        'output_prefix': '=>',
+        'one-liner': True,
+        'block_comments': True,
+        'inline_comments': True
+    }
+]
+```
